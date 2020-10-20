@@ -1,21 +1,19 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import HomePage from './components/HomePage';
-import NoMatch from './components/NoMatch';
+import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
-const App = (props) => {
+function App() {
   return (
-    <BrowserRouter>
-      <div className="app">
-        <NavBar />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route component={NoMatch} />
-        </Switch>
-      </div>
-    </BrowserRouter>
+    <Container className="App">
+      <header>
+      </header>
+      <main>
+        <Button>Test</Button>
+      </main>
+    </Container>
   );
-};
+}
 
-export default App
+export default App;
