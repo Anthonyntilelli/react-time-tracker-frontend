@@ -6,7 +6,13 @@
 - [ ] Your app should have one HTML page to render your react-redux application
 - [ ] There should be 2 container components
 - [ ] There should be 5 stateless components
+  - NavBar
 - [ ] There should be 3 routes
+  - '/'
+  - '/login'
+  - '/clock'
+  - '/history'
+  - '/admin'
 - [ ] The Application must make use of `react-router` and proper RESTful routing (should you choose to use react-router v3 please refer to the appropriate [docs](https://github.com/ReactTraining/react-router/tree/v3/docs); docs for v4 can be found [here](https://reacttraining.com/react-router/web/guides/quick-start))
 - [ ] Use Redux middleware to respond to and modify state change
 - [ ] Make use of async actions and `redux-thunk` middleware to send data to and receive data from a server
