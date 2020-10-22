@@ -8,7 +8,10 @@
   - TopAlert => ?
 - [ ] There should be 5 stateless components
   - NavBar
-  - footer
+  - Footer
+  - HeaderAndLogo
+  - NoMatch
+  - HomePage
 - [ ] There should be 3 routes
   - '/'
   - '/login'

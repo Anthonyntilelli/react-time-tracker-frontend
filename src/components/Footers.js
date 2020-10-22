@@ -1,6 +1,13 @@
 import React from 'react';
 import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
-const Footer = () => <Col className='pt-3' as='footer'><p>Created by <a to='https://github.com/Anthonyntilelli'>Anthony Tilelli</a></p></Col>
+const Footer = () => (
+    <Row className='pt-3' as='footer'>
+      <Col>
+        <p>Created by <a href='https://github.com/Anthonyntilelli' target='_blank' rel='noopener noreferrer'>Anthony Tilelli</a></p>
+      </Col>
+    </Row>
+  )
 
 export default Footer;
