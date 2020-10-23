@@ -18,7 +18,7 @@ function App() {
         <header>
           <TopAlert variant={'danger'} message={'test Message!'}/>
           <HeaderAndLogo/>
-          <NavBar admin={true} loggedIn={true}/>
+          <NavBar admin={false} loggedIn={false}/>
         </header>
         <main>
           <hr className='my-4'/>
