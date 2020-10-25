@@ -3,7 +3,6 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import './App.css';
 import HeaderAndLogo from './components/HeaderAndLogo';
 import HomePage from './components/HomePage';
 import TopAlert from './components/TopAlert';
