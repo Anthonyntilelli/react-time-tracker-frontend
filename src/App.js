@@ -9,9 +9,10 @@ import HomePage from './components/HomePage';
 import TopAlert from './components/TopAlert';
 import NavBar from './components/NavBar';
 import Footer from './components/Footers';
-import NoMatch from './components/NoMatch'
+import NoMatch from './components/NoMatch';
+import LoginForm from './components/Login';
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Container className="App" fluid>
@@ -24,7 +25,8 @@ function App() {
           <hr className='my-4'/>
           <Switch>
             <Route exact path="/" component={HomePage} />
-           <Route component={NoMatch} />
+            <Route exact path="/login" component={LoginForm} />
+            <Route component={NoMatch} />
           </Switch>
         </main>
         <Footer/>
