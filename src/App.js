@@ -18,7 +18,7 @@ const App = () => {
         <header>
           <TopAlert variant={'danger'} message={'test Message!'}/>
           <HeaderAndLogo/>
-          <NavBar admin={false} loggedIn={false}/>
+          <NavBar/>
         </header>
         <main>
           <hr className='my-4'/>

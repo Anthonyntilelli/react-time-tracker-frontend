@@ -5,9 +5,8 @@
 	- [x] Follow the instructions on this repo to setup the generator: [create-react-app](https://github.com/facebookincubator/create-react-app)
 - [ ] Your app should have one HTML page to render your react-redux application
 - [ ] There should be 2 container components
-  - TopAlert => ?
 - [ ] There should be 5 stateless components
-  - NavBar
+  - TopAlert
   - Footer
   - HeaderAndLogo
   - NoMatch
