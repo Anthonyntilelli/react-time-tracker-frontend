@@ -13,7 +13,7 @@ const LoginForm = (prop) => {
 
   const handleSubmit = (event) => {
     /// alert('Placeholder action');
-    this.prop.fetchLogin('http://localhost:3001/api/login')
+    this.prop.fetchLogin(['http://localhost:3001/api/login', name, password])
     event.preventDefault();
   }
   return (

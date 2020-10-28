@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Redux Toolkit allows us to write "mutating" logic in reducers. It
 // doesn't actually mutate the state because it uses the Immer library,
@@ -12,7 +12,9 @@ const INITIAL_STATE = { loggedIn: false, id: -1, admin: false, name: 'UNKNOWN', 
 export const fetchLogin = createAsyncThunk(
   'user/fetchLogin',
   async (endpoint, {getState}) => {
-    const responce = await fetch(endpoint);
+    const [address, name, password] = endpoint;
+    const configObj = {method: 'PUT', body: JSON.stringify({name: name, password: password})}
+    const responce = await fetch(address, configObj);
     if (!responce.ok) throw Error(responce.statusText);
     const json = await responce.json();
     return json;
@@ -49,8 +51,7 @@ export const UserSlice = createSlice({
      state.error = '';
      state.responce = action.payload
    }
-  },
-  middleware: [...getDefaultMiddleware()]
+  }
 });
 
 export const { login, logout } = UserSlice.actions;
