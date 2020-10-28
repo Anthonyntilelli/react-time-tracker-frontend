@@ -13,8 +13,12 @@ const LoginForm = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.fetchLogin(['http://localhost:3001/api/login', name, password])
-    // alert('Placeholder action');
+    const urlAndRequest = {
+      url: 'http://localhost/api/login',
+      name: name,
+      password: password
+    }
+    props.fetchLogin(urlAndRequest)
   }
   return (
     <Row>

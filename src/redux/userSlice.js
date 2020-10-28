@@ -6,15 +6,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // immutable state based off those changes
 
 // Initial is Logged out
-const INITIAL_STATE = { loggedIn: false, id: -1, admin: false, name: 'UNKNOWN', jwt: '', pending: false, errors: false, errorMessage: '', data: ''}
+const INITIAL_STATE = { loggedIn: false, id: -1, admin: false, name: 'UNKNOWN', jwt: '', pending: false, error: false, errorMessage: '', data: ''}
 
 // Redux Thunk
 export const fetchLogin = createAsyncThunk(
   'user/fetchLogin',
   async (endpoint, {getState}) => {
-    const [address, name, password] = endpoint;
-    const configObj = {method: 'PUT', body: JSON.stringify({name: name, password: password})}
-    const responce = await fetch(address, configObj);
+    const configObj = {method: 'PUT', body: JSON.stringify({name: endpoint.name, password: endpoint.password})}
+    const responce = await fetch(endpoint.url, configObj);
     if (!responce.ok) throw Error(responce.statusText);
     const json = await responce.json();
     return json;
@@ -46,13 +45,13 @@ export const UserSlice = createSlice({
    [fetchLogin.rejected]: (state, action) => {
      state.pending = false;
      state.error = true;
-     state.responce = '';
+     state.data = '';
      state.errorMessage = action
    },
    [fetchLogin.fulfilled]:(state, action) => {
      state.pending = false;
      state.error = false;
-     state.responce = action
+     state.data = action
      state.errorMessage = ''
    }
   }
