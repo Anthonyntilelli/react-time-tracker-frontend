@@ -25,8 +25,8 @@ const NavBar = (props) => {
 const mapStateToProps = state => {
   return {
     loggedIn: state.user.loggedIn,
-    admin: state.user.admin
-  }
+    admin: state.user.admin,
+  };
 }
 
 export default connect(mapStateToProps)(NavBar);

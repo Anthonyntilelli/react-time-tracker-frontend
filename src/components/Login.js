@@ -1,15 +1,19 @@
 import React, {useState} from 'react';
+import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import { fetchLogin } from '../redux/userSlice';
 
-const LoginForm = () => {
+
+const LoginForm = (prop) => {
   const [name, setname] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (event) => {
-    alert('Placeholder action');
+    /// alert('Placeholder action');
+    this.prop.fetchLogin('http://localhost:3001/api/login')
     event.preventDefault();
   }
   return (
@@ -32,5 +36,12 @@ const LoginForm = () => {
     </Row>
   )
 }
-export default LoginForm
+function mapDispatchToProps(dispatch){
+  return { fetchLogin: () => dispatch(fetchLogin()) }
+}
+function mapStateToProps(state){
+  return { astronauts: state.user.loggedin }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
 
+//store.dispatch(fetchLogin('http://localhost:3001/api/login'))

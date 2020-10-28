@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, getDefaultMiddleware } from '@reduxjs/toolkit';
 
 // Redux Toolkit allows us to write "mutating" logic in reducers. It
 // doesn't actually mutate the state because it uses the Immer library,
@@ -6,7 +6,18 @@ import { createSlice } from '@reduxjs/toolkit';
 // immutable state based off those changes
 
 // Initial is Logged out
-const INITIAL_STATE = { loggedIn: false, id: -1, admin: false, name: 'UNKNOWN', jwt: ''}
+const INITIAL_STATE = { loggedIn: false, id: -1, admin: false, name: 'UNKNOWN', jwt: '', pending: false, errors: '', responce: ''}
+
+// Redux Thunk
+export const fetchLogin = createAsyncThunk(
+  'user/fetchLogin',
+  async (endpoint, {getState}) => {
+    const responce = await fetch(endpoint);
+    if (!responce.ok) throw Error(responce.statusText);
+    const json = await responce.json();
+    return json;
+  }
+)
 
 export const UserSlice = createSlice({
   name: 'user',
@@ -26,8 +37,20 @@ export const UserSlice = createSlice({
     state.admin = INITIAL_STATE.admin;
     state.name = INITIAL_STATE.name;
     state.jwt = INITIAL_STATE.jwt;
+   },
+   [fetchLogin.pending]: state =>{ state.pending = true; },
+   [fetchLogin.rejected]: (state, action) => {
+     state.pending = false;
+     state.error = action.payload;
+     state.responce = '';
+   },
+   [fetchLogin.fulfilled]:(state, action) => {
+     state.pending = false;
+     state.error = '';
+     state.responce = action.payload
    }
   },
+  middleware: [...getDefaultMiddleware()]
 });
 
 export const { login, logout } = UserSlice.actions;
