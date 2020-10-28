@@ -6,13 +6,26 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // immutable state based off those changes
 
 // Initial is Logged out
-const INITIAL_STATE = { loggedIn: false, id: -1, admin: false, name: 'UNKNOWN', jwt: '', pending: false, error: false, errorMessage: '', data: ''}
+const INITIAL_STATE = { loggedIn: false,
+   id: -1,
+   admin: false,
+   name: 'UNKNOWN',
+   jwt: '',
+   pending: false,
+   error: false,
+   errorMessage: '',
+   fullError: null,
+   data: ''}
 
 // Redux Thunk
 export const fetchLogin = createAsyncThunk(
   'user/fetchLogin',
   async (endpoint, {getState}) => {
-    const configObj = {method: 'PUT', body: JSON.stringify({name: endpoint.name, password: endpoint.password})}
+    console.log(endpoint)
+    const configObj = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name: endpoint.name, password: endpoint.password})}
     const responce = await fetch(endpoint.url, configObj);
     if (!responce.ok) throw Error(responce.statusText);
     const json = await responce.json();
@@ -39,6 +52,11 @@ export const UserSlice = createSlice({
     state.name = INITIAL_STATE.name;
     state.jwt = INITIAL_STATE.jwt;
    },
+   clearUserError: state => {
+     // Only clear Error not data, leaves past full errors
+    state.error = INITIAL_STATE.error;
+    state.errorMessage = INITIAL_STATE.errorMessage;
+   }
   },
   extraReducers:{
    [fetchLogin.pending]: state => { state.pending = true; },
@@ -46,7 +64,8 @@ export const UserSlice = createSlice({
      state.pending = false;
      state.error = true;
      state.data = '';
-     state.errorMessage = action
+     state.fullError = action
+     state.errorMessage = `${action.error.name}: ${action.error.message}`
    },
    [fetchLogin.fulfilled]:(state, action) => {
      state.pending = false;
@@ -57,7 +76,7 @@ export const UserSlice = createSlice({
   }
 });
 
-export const { login, logout } = UserSlice.actions;
+export const { login, logout, clearUserError } = UserSlice.actions;
 export default UserSlice.reducer;
 
 // The function below is called a thunk and allows us to perform async logic. It

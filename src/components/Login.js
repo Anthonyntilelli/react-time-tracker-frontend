@@ -14,7 +14,7 @@ const LoginForm = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const urlAndRequest = {
-      url: 'http://localhost/api/login',
+      url: 'http://localhost:3001/api/login',
       name: name,
       password: password
     }
@@ -41,7 +41,7 @@ const LoginForm = (props) => {
   )
 }
 function mapDispatchToProps(dispatch){
-  return { fetchLogin: () => dispatch(fetchLogin()) }
+  return { fetchLogin: (endpoint) => dispatch(fetchLogin(endpoint)) }
 }
 function mapStateToProps(state){
   return { loggedIn: state.user.loggedIn }
