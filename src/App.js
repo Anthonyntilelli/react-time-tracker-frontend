@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import HeaderAndLogo from './components/HeaderAndLogo';
 import HomePage from './components/HomePage';
-import TopAlert from './components/TopAlert';
+import AlertContainer from './container/AlertContainer'
 import NavBar from './components/NavBar';
 import Footer from './components/Footers';
 import NoMatch from './components/NoMatch';
@@ -16,7 +16,7 @@ const App = () => {
     <BrowserRouter>
       <Container className="App" fluid>
         <header>
-          <TopAlert variant={'danger'} message={'test Message!'}/>
+          <AlertContainer/>
           <HeaderAndLogo/>
           <NavBar/>
         </header>
