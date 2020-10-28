@@ -6,8 +6,6 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 const NavBar = (props) => {
-
-
   return (
     < Row as='nav'>
       <Col className='navbar navbar-expand-sm bg-light justify-content-center'>

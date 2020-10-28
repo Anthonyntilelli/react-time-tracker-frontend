@@ -7,14 +7,14 @@ import Row from 'react-bootstrap/Row';
 import { fetchLogin } from '../redux/userSlice';
 
 
-const LoginForm = (prop) => {
+const LoginForm = (props) => {
   const [name, setname] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (event) => {
-    /// alert('Placeholder action');
-    this.prop.fetchLogin(['http://localhost:3001/api/login', name, password])
     event.preventDefault();
+    props.fetchLogin(['http://localhost:3001/api/login', name, password])
+    // alert('Placeholder action');
   }
   return (
     <Row>
@@ -40,8 +40,6 @@ function mapDispatchToProps(dispatch){
   return { fetchLogin: () => dispatch(fetchLogin()) }
 }
 function mapStateToProps(state){
-  return { astronauts: state.user.loggedin }
+  return { loggedIn: state.user.loggedIn }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
-
-//store.dispatch(fetchLogin('http://localhost:3001/api/login'))

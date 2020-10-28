@@ -6,7 +6,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // immutable state based off those changes
 
 // Initial is Logged out
-const INITIAL_STATE = { loggedIn: false, id: -1, admin: false, name: 'UNKNOWN', jwt: '', pending: false, errors: '', responce: ''}
+const INITIAL_STATE = { loggedIn: false, id: -1, admin: false, name: 'UNKNOWN', jwt: '', pending: false, errors: false, errorMessage: '', data: ''}
 
 // Redux Thunk
 export const fetchLogin = createAsyncThunk(
@@ -40,16 +40,20 @@ export const UserSlice = createSlice({
     state.name = INITIAL_STATE.name;
     state.jwt = INITIAL_STATE.jwt;
    },
-   [fetchLogin.pending]: state =>{ state.pending = true; },
+  },
+  extraReducers:{
+   [fetchLogin.pending]: state => { state.pending = true; },
    [fetchLogin.rejected]: (state, action) => {
      state.pending = false;
-     state.error = action.payload;
+     state.error = true;
      state.responce = '';
+     state.errorMessage = action
    },
    [fetchLogin.fulfilled]:(state, action) => {
      state.pending = false;
-     state.error = '';
-     state.responce = action.payload
+     state.error = false;
+     state.responce = action
+     state.errorMessage = ''
    }
   }
 });
