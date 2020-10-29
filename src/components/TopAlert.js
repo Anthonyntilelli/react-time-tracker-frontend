@@ -4,7 +4,6 @@
 
   const TopAlert = (props) => {
     return (
-
         <Col>
           <Alert variant={props.variant} onClose={() => props.clear()} dismissible>
             <Alert.Heading>{props.message}</Alert.Heading>

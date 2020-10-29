@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import jwt_decode from "jwt-decode";
 
 // Redux Toolkit allows us to write "mutating" logic in reducers. It
 // doesn't actually mutate the state because it uses the Immer library,
@@ -6,22 +7,22 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // immutable state based off those changes
 
 // Initial is Logged out
-const INITIAL_STATE = { loggedIn: false,
-   id: -1,
-   admin: false,
-   name: 'UNKNOWN',
-   jwt: '',
-   pending: false,
-   error: false,
-   errorMessage: '',
-   data: ''
+const INITIAL_STATE = {
+  loggedIn: false,
+  id: -1,
+  admin: false,
+  name: 'UNKNOWN',
+  jwt: '',
+  pending: false,
+  error: false,
+  errorMessage: '',
+  loginMessage: '',
 }
 
 // Redux Thunk
 export const fetchLogin = createAsyncThunk(
   'user/fetchLogin',
   async (endpoint, {getState}) => {
-    console.log(endpoint)
     const configObj = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -37,44 +38,51 @@ export const UserSlice = createSlice({
   name: 'user',
   initialState: INITIAL_STATE,
   reducers: {
-    login: (state, action) => {
-      const { loggedIn, id, admin, name, jwt } = action.payload
-      state.loggedIn = loggedIn;
-      state.id = id;
-      state.admin = admin;
-      state.name = name;
-      state.jwt = jwt;
-    },
    logout: state => {
     state.loggedIn = INITIAL_STATE.loggedIn;
     state.id = INITIAL_STATE.id;
     state.admin = INITIAL_STATE.admin;
     state.name = INITIAL_STATE.name;
     state.jwt = INITIAL_STATE.jwt;
+    state.loginMessage = "Logout Successfull";
    },
    clearUserError: state => {
     state.error = INITIAL_STATE.error;
     state.errorMessage = INITIAL_STATE.errorMessage;
-   }
+   },
+   clearLoginMessage: state => { state.loginMessage = INITIAL_STATE.loginMessage;}
   },
   extraReducers:{
-   [fetchLogin.pending]: state => { state.pending = true; },
+   [fetchLogin.pending]: state => {
+     state.pending = true;
+     state.error = INITIAL_STATE.error;
+     state.errorMessage = INITIAL_STATE.errorMessage;
+   },
    [fetchLogin.rejected]: (state, action) => {
      state.pending = INITIAL_STATE.pending;
      state.error = true;
-     state.data = INITIAL_STATE.data;
      state.errorMessage = `${action.error.name}: ${action.error.message}`;
    },
    [fetchLogin.fulfilled]:(state, action) => {
-     state.pending = INITIAL_STATE.pending;
-     state.error = INITIAL_STATE.error;
-     state.data = action.payload;
-     state.errorMessage = INITIAL_STATE.errorMessage;
+    state.pending = INITIAL_STATE.pending;
+    try {
+      const decoded = jwt_decode(action.payload.token)
+      state.loggedIn = true;
+      state.id = decoded.id;
+      state.admin = decoded.admin;
+      state.name = decoded.name;
+      state.jwt = action.payload.token;
+      state.loginMessage = action.payload.message;
+    } catch(error) {
+      state.error = true;
+      state.errorMessage = `Issue when attempting to decode JWT token`;
+      console.error(error);
+    }
    }
   }
 });
 
-export const { login, logout, clearUserError } = UserSlice.actions;
+export const {logout, clearUserError, clearLoginMessage } = UserSlice.actions;
 export default UserSlice.reducer;
 
 // The function below is called a thunk and allows us to perform async logic. It
