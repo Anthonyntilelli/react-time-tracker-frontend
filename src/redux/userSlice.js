@@ -14,8 +14,8 @@ const INITIAL_STATE = { loggedIn: false,
    pending: false,
    error: false,
    errorMessage: '',
-   fullError: null,
-   data: ''}
+   data: ''
+}
 
 // Redux Thunk
 export const fetchLogin = createAsyncThunk(
@@ -53,7 +53,6 @@ export const UserSlice = createSlice({
     state.jwt = INITIAL_STATE.jwt;
    },
    clearUserError: state => {
-     // Only clear Error not data, leaves past full errors
     state.error = INITIAL_STATE.error;
     state.errorMessage = INITIAL_STATE.errorMessage;
    }
@@ -61,17 +60,16 @@ export const UserSlice = createSlice({
   extraReducers:{
    [fetchLogin.pending]: state => { state.pending = true; },
    [fetchLogin.rejected]: (state, action) => {
-     state.pending = false;
+     state.pending = INITIAL_STATE.pending;
      state.error = true;
-     state.data = '';
-     state.fullError = action
-     state.errorMessage = `${action.error.name}: ${action.error.message}`
+     state.data = INITIAL_STATE.data;
+     state.errorMessage = `${action.error.name}: ${action.error.message}`;
    },
    [fetchLogin.fulfilled]:(state, action) => {
-     state.pending = false;
-     state.error = false;
-     state.data = action
-     state.errorMessage = ''
+     state.pending = INITIAL_STATE.pending;
+     state.error = INITIAL_STATE.error;
+     state.data = action.payload;
+     state.errorMessage = INITIAL_STATE.errorMessage;
    }
   }
 });
