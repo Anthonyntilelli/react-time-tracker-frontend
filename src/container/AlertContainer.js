@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Row from 'react-bootstrap/Row';
 import TopAlert from '../components/TopAlert';
-import { clearUserError, clearLoginMessage } from '../redux/userSlice';
+import { clearUserError, clearLoginMessage } from '../redux/LoginSlice';
 
 const AlertContainer = (props) => {
   return (

@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { logout } from '../redux/userSlice';
+import { logout } from '../redux/LoginSlice';
 
 const NavBar = (props) => {
   return (
