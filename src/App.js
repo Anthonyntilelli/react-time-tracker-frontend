@@ -10,6 +10,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footers';
 import NoMatch from './components/NoMatch';
 import LoginForm from './components/Login';
+import SelfBlock from './components/SelfBlock';
 
 const App = () => {
   return (
@@ -23,8 +24,9 @@ const App = () => {
         <main>
           <hr className='my-4'/>
           <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/login" component={LoginForm} />
+            <Route exact path='/' component={HomePage} />
+            <Route exact path='/login' component={LoginForm} />
+            <Route exact path='/me' component={SelfBlock} />
             <Route component={NoMatch} />
           </Switch>
         </main>
