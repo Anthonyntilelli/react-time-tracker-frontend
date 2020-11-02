@@ -14,8 +14,7 @@ const INITIAL_STATE = {
   pto_current: -1,
   pto_max: -1,
   pending: false,
-  errorMessage: null,
-  successMessage: null,
+  errorMessage: null
 }
 
 // Redux Thunk
@@ -48,16 +47,13 @@ export const SelfSlice = createSlice({
     state.pto_max = INITIAL_STATE.pto_max;
     state.pending = INITIAL_STATE.pending;
     state.errorMessage = INITIAL_STATE.errorMessage;
-    state.successMessage = INITIAL_STATE.successMessage;
    },
    clearSelfError: state => { state.errorMessage = INITIAL_STATE.errorMessage; },
-   clearSelfSuccess: state => { state.successMessage = INITIAL_STATE.successMessage;}
   },
   extraReducers:{
    [fetchSelf.pending]: state => {
      state.pending = true;
      state.errorMessage = INITIAL_STATE.errorMessage;
-     state.successMessage = INITIAL_STATE.successMessage;
    },
    [fetchSelf.rejected]: (state, action) => {
      state.pending = INITIAL_STATE.pending;
@@ -70,10 +66,9 @@ export const SelfSlice = createSlice({
     state.pto_rate = action.payload.pto_rate;
     state.pto_current = action.payload.pto_current;
     state.pto_max = action.payload.pto_max;
-    state.successMessage = `Hello #{state.name}`;
    }
   },
 });
 
-export const {resetSelf, clearSelfError, clearSelfSuccess } = SelfSlice.actions;
+export const {resetSelf, clearSelfError } = SelfSlice.actions;
 export default SelfSlice.reducer;
