@@ -8,18 +8,17 @@ import { clearSelfError } from '../redux/SelfSlice';
 const AlertContainer = (props) => {
   return (
     <>
-    { props.userError && <Row as='aside'><TopAlert variant={'danger'} message={props.userErrorMessage} clear={() => props.clearUserError()} /></Row> }
+    { props.userErrorMessage && <Row as='aside'><TopAlert variant={'danger'} message={props.userErrorMessage} clear={() => props.clearUserError()} /></Row> }
     { props.loginMessage && <Row as='aside'><TopAlert variant={'success'} message={props.loginMessage} clear={() => props.clearLoginMessage()} /></Row> }
-    { props.SelfErrorMessage && <Row as='aside'><TopAlert variant={'danger'} message={props.SelfErrorMessage} clear={() => props.clearUserError()} /></Row> }
+    { props.selfErrorMessage && <Row as='aside'><TopAlert variant={'danger'} message={props.selfErrorMessage} clear={() => props.clearSelfError()} /></Row> }
     </>
   )
 }
 
 const mapStateToProps = state => (
   {
-    userError: state.user.error,
     userErrorMessage: state.user.errorMessage,
-    SelfErrorMessage: state.self.errorMessage,
+    selfErrorMessage: state.self.errorMessage,
     loginMessage: state.user.loginMessage
   }
 );

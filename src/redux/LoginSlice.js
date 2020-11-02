@@ -15,9 +15,8 @@ const INITIAL_STATE = {
   name: 'UNKNOWN',
   jwt: '',
   pending: false,
-  error: false,
-  errorMessage: '',
-  loginMessage: '',
+  errorMessage: null,
+  loginMessage: null,
 }
 
 // Redux Thunk
@@ -47,21 +46,17 @@ export const UserSlice = createSlice({
     state.jwt = INITIAL_STATE.jwt;
     state.loginMessage = "Logout Successfull";
    },
-   clearUserError: state => {
-    state.error = INITIAL_STATE.error;
-    state.errorMessage = INITIAL_STATE.errorMessage;
-   },
+   clearUserError: state => { state.errorMessage = INITIAL_STATE.errorMessage; },
    clearLoginMessage: state => { state.loginMessage = INITIAL_STATE.loginMessage;}
   },
   extraReducers:{
    [fetchLogin.pending]: state => {
      state.pending = true;
-     state.error = INITIAL_STATE.error;
      state.errorMessage = INITIAL_STATE.errorMessage;
+     state.loginMessage = INITIAL_STATE.loginMessage;
    },
    [fetchLogin.rejected]: (state, action) => {
      state.pending = INITIAL_STATE.pending;
-     state.error = true;
      state.errorMessage = `${action.error.name}: ${action.error.message}`;
    },
    [fetchLogin.fulfilled]:(state, action) => {
@@ -75,7 +70,6 @@ export const UserSlice = createSlice({
       state.jwt = action.payload.token;
       state.loginMessage = action.payload.message;
     } catch(error) {
-      state.error = true;
       state.errorMessage = `Issue when attempting to decode JWT token`;
       console.error(error);
     }
