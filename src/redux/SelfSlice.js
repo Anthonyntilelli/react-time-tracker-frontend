@@ -9,7 +9,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // Initial is Logged out
 const INITIAL_STATE = {
   id: -1,
-  name: 'UNKNOWN',
+  name: 'Loading, please standby....',
   pto_rate: -1,
   pto_current: -1,
   pto_max: -1,
