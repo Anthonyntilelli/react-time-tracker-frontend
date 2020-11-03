@@ -26,7 +26,8 @@ export const fetchLogin = createAsyncThunk(
     const configObj = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name: endpoint.name, password: endpoint.password})}
+      body: JSON.stringify({name: endpoint.name, password: endpoint.password})
+    }
     const responce = await fetch(endpoint.url, configObj);
     if (!responce.ok) throw Error(responce.statusText);
     const json = await responce.json();
