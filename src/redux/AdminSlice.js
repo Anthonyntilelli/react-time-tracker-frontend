@@ -29,31 +29,31 @@ export const fetchAdminList = createAsyncThunk(
     return json;
   }
 )
-export const fetchAdminHire = createAsyncThunk(
-  'admin/fetchAdminHire',
-  async (endpoint, {getState}) => {
-    const configObj = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${endpoint.token}`
-      },
-      body: JSON.stringify(
-        {
-          hire_name: endpoint.hire_name,
-          hire_password: endpoint.hire_password,
-          hire_is_admin: endpoint.hire_is_admin,
-          pto_rate: endpoint.pto_rate,
-          pto_max: endpoint.pto_max
-        }
-      )
-    }
-    const responce = await fetch(endpoint.url, configObj);
-    if (!responce.ok) throw Error(responce.statusText);
-    const json = await responce.json();
-    return json;
-  }
-);
+// export const fetchAdminHire = createAsyncThunk(
+//   'admin/fetchAdminHire',
+//   async (endpoint, {getState}) => {
+//     const configObj = {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': `Bearer ${endpoint.token}`
+//       },
+//       body: JSON.stringify(
+//         {
+//           hire_name: endpoint.hire_name,
+//           hire_password: endpoint.hire_password,
+//           hire_is_admin: endpoint.hire_is_admin,
+//           pto_rate: endpoint.pto_rate,
+//           pto_max: endpoint.pto_max
+//         }
+//       )
+//     }
+//     const responce = await fetch(endpoint.url, configObj);
+//     if (!responce.ok) throw Error(responce.statusText);
+//     const json = await responce.json();
+//     return json;
+//   }
+// );
 // export const fetchAdminUpdate = createAsyncThunk();
 // export const fetchAdminTerminate = createAsyncThunk();
 
@@ -75,6 +75,7 @@ export const AdminSlice = createSlice({
      state.pending = true;
      state.errorMessage = INITIAL_STATE.errorMessage;
      state.successMessage = INITIAL_STATE.successMessage;
+     state.employee_list = INITIAL_STATE.employee_list;
    },
    [fetchAdminList.rejected]: (state, action) => {
      state.pending = INITIAL_STATE.pending;
@@ -82,7 +83,6 @@ export const AdminSlice = createSlice({
    },
    [fetchAdminList.fulfilled]:(state, action) => {
     state.pending = INITIAL_STATE.pending;
-    // state.successMessage = INITIAL_STATE.successMessage;
     state.employee_list = action.payload;
    }
   },
