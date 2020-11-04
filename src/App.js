@@ -12,6 +12,7 @@ import NoMatch from './components/NoMatch';
 import LoginForm from './components/Login';
 import SelfBlock from './components/SelfBlock';
 import AdminContainer from './container/AdminContainer'
+import ModifyBlock from './components/ModifyBlock';
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
             <Route exact path='/login' component={LoginForm} />
             <Route exact path='/me' component={SelfBlock} />
             <Route exact path='/admin' component={AdminContainer} />
+            <Route path='/admin/:id' component={ModifyBlock} />
             <Route component={NoMatch} />
           </Switch>
         </main>

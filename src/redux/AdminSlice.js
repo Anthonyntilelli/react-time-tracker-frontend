@@ -9,12 +9,29 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // Initial is Logged out
 const INITIAL_STATE = {
   employee_list: [],
+  employee_modification: {},
   pending: false,
   errorMessage: null,
   successMessage: null
 }
 export const fetchAdminList = createAsyncThunk(
   'admin/fetchAdminList',
+  async (endpoint, {getState}) => {
+    const configObj = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${endpoint.token}`
+      }
+    }
+    const responce = await fetch(endpoint.url, configObj);
+    if (!responce.ok) throw Error(responce.statusText);
+    const json = await responce.json();
+    return json;
+  }
+)
+export const fetchEmp = createAsyncThunk(
+  'admin/fetchEmp',
   async (endpoint, {getState}) => {
     const configObj = {
       method: 'GET',
@@ -63,6 +80,7 @@ export const AdminSlice = createSlice({
   reducers: {
    resetAdmin: state => {
     state.employee_list = INITIAL_STATE.employee_list;
+    state.employee_modification = INITIAL_STATE.employee_modification;
     state.pending = INITIAL_STATE.pending;
     state.errorMessage = INITIAL_STATE.errorMessage;
     state.successMessage = INITIAL_STATE.successMessage;
@@ -84,7 +102,21 @@ export const AdminSlice = createSlice({
    [fetchAdminList.fulfilled]:(state, action) => {
     state.pending = INITIAL_STATE.pending;
     state.employee_list = action.payload;
-   }
+   },
+   [fetchEmp.pending]: state => {
+    state.pending = true;
+    state.errorMessage = INITIAL_STATE.errorMessage;
+    state.successMessage = INITIAL_STATE.successMessage;
+    state.employee_modification = INITIAL_STATE.employee_modification;
+   },
+   [fetchEmp.rejected]: (state, action) => {
+    state.pending = INITIAL_STATE.pending;
+    state.errorMessage = `${action.error.name}: ${action.error.message}`;
+   },
+   [fetchEmp.fulfilled]: (state, action) => {
+    state.pending = INITIAL_STATE.pending;
+    state.employee_modification = action.payload;
+   },
   },
 });
 

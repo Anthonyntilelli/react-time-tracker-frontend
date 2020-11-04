@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from 'react-bootstrap/Button'
+import { Link } from 'react-router-dom'
 
 
 const EmployeeBriefEntry = (props) => {
@@ -10,7 +10,7 @@ const EmployeeBriefEntry = (props) => {
         <td>{props.name}</td>
         <td>{active}</td>
         <td>{admin}</td>
-        <td><Button variant="primary">Expand</Button></td>
+        { props.active ? <td><Link to={props.url}>Modify PTO</Link></td> : <td>Not Active employee</td> }
       </tr>
   )
 }
