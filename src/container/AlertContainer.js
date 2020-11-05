@@ -32,8 +32,8 @@ const mapDispatchToProps = dispatch => (
     clearUserError: () => dispatch(clearUserError()),
     clearLoginMessage: () => dispatch(clearLoginMessage()),
     clearSelfError: () => dispatch(clearSelfError()),
-    clearAdminError: () => dispatchEvent(clearAdminError()),
-    clearAdminSuccess: () => dispatchEvent(clearAdminSuccess())
+    clearAdminError: () => dispatch(clearAdminError()),
+    clearAdminSuccess: () => dispatch(clearAdminSuccess())
   }
 )
 

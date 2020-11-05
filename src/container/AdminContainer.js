@@ -2,7 +2,6 @@ import  React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 // import Col from 'react-bootstrap/Col';
 // import Row from 'react-bootstrap/Row';
-import { Redirect } from 'react-router-dom';
 import Table from 'react-bootstrap/Table'
 import EmployeeBriefEntry from '../components/employeeBriefEntry'
 import { fetchAdminList } from '../redux/AdminSlice'
@@ -11,31 +10,28 @@ import { fetchAdminList } from '../redux/AdminSlice'
 class AdminContainer extends PureComponent {
   render() {
     return (
-      <>
-      { !this.props.loggedIn && !this.props.admin && < Redirect to='/' /> }
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Active</th>
-              <th>Admin</th>
-              <th>Administer</th>
-              <th>Terminate</th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.props.employee_list.map((emp) => (
-                                            <EmployeeBriefEntry
-                                              key={emp.id} name={emp.name}
-                                              active={emp.active} admin={emp.admin}
-                                              modify_url={`/admin/${emp.id}`} terminate_url={`/admin/terminate/${emp.id}`}
-                                            />
-                                          )
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Active</th>
+            <th>Admin</th>
+            <th>Administer</th>
+            <th>Terminate</th>
+          </tr>
+        </thead>
+        <tbody>
+          { this.props.employee_list.map((emp) => (
+                                          <EmployeeBriefEntry
+                                            key={emp.id} name={emp.name}
+                                            active={emp.active} admin={emp.admin}
+                                            modify_url={`/admin/${emp.id}`} terminate_url={`/admin/terminate/${emp.id}`}
+                                          />
                                         )
-            }
-          </tbody>
-        </Table>
-      </>
+                                      )
+          }
+        </tbody>
+      </Table>
     )
   }
   componentDidMount() {

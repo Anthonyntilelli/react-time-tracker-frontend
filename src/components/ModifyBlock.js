@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 import { fetchEmp } from '../redux/AdminSlice';
-// import { Redirect } from 'react-router-dom';
 
 class ModifyBlock extends PureComponent {
 
@@ -29,7 +28,7 @@ class ModifyBlock extends PureComponent {
     return (
       <>
         <Row>
-          <Col as='h1'>Modify {this.props.name}</Col>
+          <Col as='h2'>Modify {this.props.name}</Col>
         </Row>
         <br />
         <Row>

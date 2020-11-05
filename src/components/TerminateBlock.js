@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { fetchAdminTerminate } from '../redux/AdminSlice';
-import { Redirect } from 'react-router-dom';
 
 
 const TerminateBlock = (props) => {
@@ -19,31 +18,23 @@ const TerminateBlock = (props) => {
   }
 
   return (
-    <>
-      { !props.loggedIn && < Redirect to='/' /> }
-      <Row>
-        <Col></Col>
-        <Col>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId='loginname'>
-              <Form.Label>Termination Reason</Form.Label>
-              <Form.Control type='text' value={reason} onChange={event => setReason(event.target.value)} autoFocus required/>
-            </Form.Group>
-            <Button variant='primary' type='submit'> Submit </Button>
-          </Form>
-        </Col>
-        <Col></Col>
-      </Row>
-    </>
+    <Row>
+      <Col></Col>
+      <Col>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId='loginname'>
+            <Form.Label>Termination Reason</Form.Label>
+            <Form.Control type='text' value={reason} onChange={event => setReason(event.target.value)} autoFocus required/>
+          </Form.Group>
+          <Button variant='primary' type='submit'> Submit </Button>
+        </Form>
+      </Col>
+      <Col></Col>
+    </Row>
   )
 };
 
 const mapDispatchToProps = dispatch => ({ fetchAdminTerminate: (endpoint) => dispatch(fetchAdminTerminate(endpoint)) });
-const mapStateToProps = state => (
-  {
-    loggedIn: state.user.loggedIn,
-    token: state.user.jwt,
-  }
-);
+const mapStateToProps = state => ({ loggedIn: state.user.loggedIn, token: state.user.jwt });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TerminateBlock);

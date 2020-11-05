@@ -87,7 +87,6 @@ export const fetchAdminTerminate = createAsyncThunk(
 //   }
 // );
 // export const fetchAdminUpdate = createAsyncThunk();
-// export const fetchAdminTerminate = createAsyncThunk();
 
 export const AdminSlice = createSlice({
   name: 'admin',

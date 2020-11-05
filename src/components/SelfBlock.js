@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import { Redirect } from 'react-router-dom';
 import { fetchSelf } from '../redux/SelfSlice'
 
 class SelfBlock extends PureComponent {
@@ -10,7 +9,6 @@ class SelfBlock extends PureComponent {
   render() {
     return (
       <>
-        { !this.props.loggedIn && < Redirect to='/' /> }
         <Row><Col><p>Name: {this.props.name}</p></Col></Row>
         <Row><Col><p>PTO Current: {this.props.pto_current}</p></Col></Row>
         <Row><Col><p>PTO Rate: {this.props.pto_rate}</p></Col></Row>
