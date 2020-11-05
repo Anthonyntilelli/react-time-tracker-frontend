@@ -10,7 +10,8 @@ const EmployeeBriefEntry = (props) => {
         <td>{props.name}</td>
         <td>{active}</td>
         <td>{admin}</td>
-        { props.active ? <td><Link to={props.url}>Modify PTO</Link></td> : <td>Not Active employee</td> }
+        { props.active ? <td><Link to={props.modify_url}>Modify PTO</Link></td> : <td>Not Active employee</td> }
+        { props.active ? <td><Link to={props.terminate_url}>Terminate</Link></td> : <td>Not Active employee</td> }
       </tr>
   )
 }

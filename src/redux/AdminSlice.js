@@ -46,6 +46,21 @@ export const fetchEmp = createAsyncThunk(
     return json;
   }
 )
+export const fetchAdminTerminate = createAsyncThunk(
+  'admin/fetchAdminTerminate',
+  async (endpoint, {getState}) => {
+    const configObj = {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${endpoint.token}` },
+      body: JSON.stringify( { reason: endpoint.reason } )
+    }
+    const responce = await fetch(endpoint.url, configObj);
+    if (!responce.ok) throw Error(responce.statusText);
+    const json = await responce.json();
+    return json;
+  }
+);
+
 // export const fetchAdminHire = createAsyncThunk(
 //   'admin/fetchAdminHire',
 //   async (endpoint, {getState}) => {
@@ -99,9 +114,10 @@ export const AdminSlice = createSlice({
      state.pending = INITIAL_STATE.pending;
      state.errorMessage = `${action.error.name}: ${action.error.message}`;
    },
-   [fetchAdminList.fulfilled]:(state, action) => {
+   [fetchAdminList.fulfilled]: (state, action) => {
     state.pending = INITIAL_STATE.pending;
     state.employee_list = action.payload;
+    state.successMessage = action.payload.message;
    },
    [fetchEmp.pending]: state => {
     state.pending = true;
@@ -116,7 +132,21 @@ export const AdminSlice = createSlice({
    [fetchEmp.fulfilled]: (state, action) => {
     state.pending = INITIAL_STATE.pending;
     state.employee_modification = action.payload;
+    state.successMessage = action.payload.message;
    },
+   [fetchAdminTerminate.pending]: state => {
+    state.pending = true;
+    state.errorMessage = INITIAL_STATE.errorMessage;
+    state.successMessage = INITIAL_STATE.successMessage;
+   },
+   [fetchAdminTerminate.rejected]: (state, action) => {
+    state.pending = INITIAL_STATE.pending;
+    state.errorMessage = `${action.error.name}: ${action.error.message}`;
+   },
+   [fetchAdminTerminate.fulfilled]: (state, action) => {
+    state.pending = INITIAL_STATE.pending;
+    state.successMessage = action.payload.message;
+   }
   },
 });
 

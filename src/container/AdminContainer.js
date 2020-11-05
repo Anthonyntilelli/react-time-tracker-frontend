@@ -20,10 +20,19 @@ class AdminContainer extends PureComponent {
               <th>Active</th>
               <th>Admin</th>
               <th>Administer</th>
+              <th>Terminate</th>
             </tr>
           </thead>
           <tbody>
-            { this.props.employee_list.map((emp) => <EmployeeBriefEntry key={emp.id} name={emp.name} active={emp.active} admin={emp.admin} url={`/admin/${emp.id}`} />  ) }
+            { this.props.employee_list.map((emp) => (
+                                            <EmployeeBriefEntry
+                                              key={emp.id} name={emp.name}
+                                              active={emp.active} admin={emp.admin}
+                                              modify_url={`/admin/${emp.id}`} terminate_url={`/admin/terminate/${emp.id}`}
+                                            />
+                                          )
+                                        )
+            }
           </tbody>
         </Table>
       </>
