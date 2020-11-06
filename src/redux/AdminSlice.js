@@ -6,7 +6,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // which detects changes to a "draft state" and produces a brand new
 // immutable state based off those changes
 
-// Initial is Logged out
 const INITIAL_STATE = {
   employee_list: [],
   employee_modification: {},
@@ -53,6 +52,30 @@ export const fetchAdminTerminate = createAsyncThunk(
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${endpoint.token}` },
       body: JSON.stringify( { reason: endpoint.reason } )
+    }
+    const responce = await fetch(endpoint.url, configObj);
+    if (!responce.ok) throw Error(responce.statusText);
+    const json = await responce.json();
+    return json;
+  }
+);
+export const fetchAdminUpdate = createAsyncThunk(
+  'admin/fetchAdminUpdate',
+  async (endpoint, {getState}) => {
+    const configObj = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${endpoint.token}`
+      },
+      body: JSON.stringify(
+        {
+          reason: endpoint.reason,
+          pto_current: endpoint.pto_current,
+          pto_rate: endpoint.pto_rate,
+          pto_max: endpoint.pto_max,
+        }
+      )
     }
     const responce = await fetch(endpoint.url, configObj);
     if (!responce.ok) throw Error(responce.statusText);
@@ -145,7 +168,24 @@ export const AdminSlice = createSlice({
    [fetchAdminTerminate.fulfilled]: (state, action) => {
     state.pending = INITIAL_STATE.pending;
     state.successMessage = action.payload.message;
-   }
+   },
+   [fetchAdminUpdate.pending]: (state) => {
+    state.pending = true;
+    state.errorMessage = INITIAL_STATE.errorMessage;
+    state.successMessage = INITIAL_STATE.successMessage
+   },
+   [fetchAdminUpdate.rejected]: (state, action) => {
+    state.pending = INITIAL_STATE.pending;
+    state.errorMessage = `${action.error.name}: ${action.error.message}`;
+   },
+   [fetchAdminUpdate.fulfilled]: (state, action) => {
+    state.pending = INITIAL_STATE.pending;
+    state.successMessage = `PTO Updated for ${action.payload.name}`;
+    state.employee_modification = action.payload;
+   },
+
+
+
   },
 });
 

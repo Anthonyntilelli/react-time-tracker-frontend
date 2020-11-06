@@ -1,27 +1,28 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-import { fetchEmp } from '../redux/AdminSlice';
+import { fetchEmp, fetchAdminUpdate } from '../redux/AdminSlice';
 
-class ModifyBlock extends PureComponent {
-
-  // reason = params.require(:reason)
-  // pto_rate = params.require(:pto_rate)
-  // pto_max = params.require(:pto_max)
-  // pto_current = params.require(:pto_current)
+class ModifyBlock extends Component {
   constructor(props) {
     super(props);
-    this.state = { reason: '', pto_rate: -1, pto_max:  -1, pto_current: -1 };
+    this.state = { reason: '', pto_rate: null, pto_max:  null, pto_current: null };
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    // const urlAndRequest = { url: 'http://localhost:3001/api/login', name: name, password: password };
-    // props.fetchLogin(urlAndRequest);
+    const urlAndRequest = { url: `http://localhost:3001/api/employee/${this.props.match.params.id}`,
+                            reason: this.state.reason,
+                            pto_rate: this.state.pto_rate,
+                            pto_max: this.state.pto_max,
+                            pto_current: this.state.pto_current,
+                            token: this.props.token
+                          };
+    this.props.fetchAdminUpdate(urlAndRequest);
   }
 
   render() {
@@ -30,7 +31,21 @@ class ModifyBlock extends PureComponent {
         <Row>
           <Col as='h2'>Modify {this.props.name}</Col>
         </Row>
+
+        <Row>
+          <Col as='p'>Current PTO Rate: {this.props.pto_rate}</Col>
+        </Row>
+
+        <Row>
+          <Col as='p'>Current PTO Max: {this.props.pto_max}</Col>
+        </Row>
+
+        <Row>
+          <Col as='p'>Current PTO Current: {this.props.pto_current}</Col>
+        </Row>
+
         <br />
+
         <Row>
           <Col></Col>
           <Col>
@@ -80,14 +95,16 @@ class ModifyBlock extends PureComponent {
     if (this.props.loggedIn) {
       const urlAndRequest = { url: `http://localhost:3001/api/employee/${this.props.match.params.id}`, token: this.props.token, };
       this.props.fetchEmp(urlAndRequest);
-      this.setState({pto_rate: this.props.pto_rate});
-      this.setState({pto_max: this.props.pto_max});
-      this.setState({pto_current: this.props.pto_current});
     }
   }
 }
 
-const mapDispatchToProps = dispatch => ({ fetchEmp: (endpoint) => dispatch(fetchEmp(endpoint)) });
+const mapDispatchToProps = dispatch => (
+  {
+    fetchEmp: (endpoint) => dispatch(fetchEmp(endpoint)),
+    fetchAdminUpdate:  (endpoint) => dispatch(fetchAdminUpdate(endpoint))
+  }
+);
 const mapStateToProps = state => ({
   loggedIn: state.user.loggedIn,
   token: state.user.jwt,
