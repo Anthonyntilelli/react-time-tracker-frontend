@@ -6,7 +6,6 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { fetchLogin } from '../redux/LoginSlice';
 
-
 const LoginForm = (props) => {
   const [name, setname] = useState('');
   const [password, setPassword] = useState('');

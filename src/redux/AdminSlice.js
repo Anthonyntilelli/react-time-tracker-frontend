@@ -83,33 +83,31 @@ export const fetchAdminUpdate = createAsyncThunk(
     return json;
   }
 );
-
-// export const fetchAdminHire = createAsyncThunk(
-//   'admin/fetchAdminHire',
-//   async (endpoint, {getState}) => {
-//     const configObj = {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': `Bearer ${endpoint.token}`
-//       },
-//       body: JSON.stringify(
-//         {
-//           hire_name: endpoint.hire_name,
-//           hire_password: endpoint.hire_password,
-//           hire_is_admin: endpoint.hire_is_admin,
-//           pto_rate: endpoint.pto_rate,
-//           pto_max: endpoint.pto_max
-//         }
-//       )
-//     }
-//     const responce = await fetch(endpoint.url, configObj);
-//     if (!responce.ok) throw Error(responce.statusText);
-//     const json = await responce.json();
-//     return json;
-//   }
-// );
-// export const fetchAdminUpdate = createAsyncThunk();
+export const fetchAdminHire = createAsyncThunk(
+  'admin/fetchAdminHire',
+  async (endpoint, {getState}) => {
+    const configObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${endpoint.token}`
+      },
+      body: JSON.stringify(
+        {
+          hire_name: endpoint.hire_name,
+          hire_password: endpoint.hire_password,
+          hire_is_admin: endpoint.hire_is_admin,
+          pto_rate: endpoint.pto_rate,
+          pto_max: endpoint.pto_max
+        }
+      )
+    }
+    const responce = await fetch(endpoint.url, configObj);
+    if (!responce.ok) throw Error(responce.statusText);
+    const json = await responce.json();
+    return json;
+  }
+);
 
 export const AdminSlice = createSlice({
   name: 'admin',
@@ -172,7 +170,7 @@ export const AdminSlice = createSlice({
    [fetchAdminUpdate.pending]: (state) => {
     state.pending = true;
     state.errorMessage = INITIAL_STATE.errorMessage;
-    state.successMessage = INITIAL_STATE.successMessage
+    state.successMessage = INITIAL_STATE.successMessage;
    },
    [fetchAdminUpdate.rejected]: (state, action) => {
     state.pending = INITIAL_STATE.pending;
@@ -183,9 +181,23 @@ export const AdminSlice = createSlice({
     state.successMessage = `PTO Updated for ${action.payload.name}`;
     state.employee_modification = action.payload;
    },
-
-
-
+   [fetchAdminHire.pending]: (state) => {
+    state.pending = true;
+    state.errorMessage = INITIAL_STATE.errorMessage;
+    state.successMessage = INITIAL_STATE.successMessage;
+    state.action = null
+   },
+   [fetchAdminHire.rejected]: (state, action) => {
+    state.pending = INITIAL_STATE.pending;
+    state.errorMessage = `${action.error.name}: ${action.error.message}`;
+    state.action = action
+   },
+   [fetchAdminHire.fulfilled]: (state, action) => {
+    state.pending = INITIAL_STATE.pending;
+    state.successMessage = `${action.payload.name} added to the system.`;
+    state.employee_list.push(action.payload);
+    state.action = action
+   },
   },
 });
 

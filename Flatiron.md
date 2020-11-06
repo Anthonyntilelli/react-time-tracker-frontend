@@ -18,7 +18,7 @@
 - [ ] There should be 3 routes
   - '/'
   - '/login'
-  - '/clock'
+  - '/new_hire'
   - '/history'
   - '/admin'
 - [x] The Application must make use of `react-router` and proper RESTful routing (should you choose to use react-router v3 please refer to the appropriate [docs](https://github.com/ReactTraining/react-router/tree/v3/docs); docs for v4 can be found [here](https://reacttraining.com/react-router/web/guides/quick-start))

@@ -15,6 +15,7 @@ import SelfBlock from './components/SelfBlock';
 import AdminContainer from './container/AdminContainer'
 import ModifyBlock from './components/ModifyBlock';
 import TerminateBlock from './components/TerminateBlock'
+import NewHire from './components/NewHire';
 
 const App = (props) => {
   const adminRoutes = (props) => {
@@ -24,6 +25,7 @@ const App = (props) => {
           <Route exact path='/admin' component={AdminContainer} />
           <Route exact path='/admin/:id' component={ModifyBlock} />
           <Route exact path='/admin/terminate/:id' component={TerminateBlock} />
+          <Route exact path='/new_hire' component={NewHire} />
         </>
       )
     } else {
