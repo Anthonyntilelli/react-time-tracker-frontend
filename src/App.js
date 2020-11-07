@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -18,20 +18,10 @@ import TerminateBlock from './components/TerminateBlock'
 import NewHire from './components/NewHire';
 
 const App = (props) => {
-  const adminRoutes = (props) => {
-    if (props.loggedIn && props.admin){
-      return (
-        <>
-          <Route exact path='/admin' component={AdminContainer} />
-          <Route exact path='/admin/:id' component={ModifyBlock} />
-          <Route exact path='/admin/terminate/:id' component={TerminateBlock} />
-          <Route exact path='/new_hire' component={NewHire} />
-        </>
-      )
-    } else {
-      return null
-    }
-  }
+  // Controll access to routes
+  const ControlledRoute = ({component: Component, allow,  ...rest}) => (
+    <Route {...rest} render={ (props) => ( allow ? <Component {...props} /> : <Redirect to="/" /> )} />
+  );
 
   return (
     <BrowserRouter>
@@ -45,9 +35,12 @@ const App = (props) => {
           <hr className='my-4'/>
           <Switch>
             <Route exact path='/' component={HomePage} />
-            { !props.loggedIn && <Route exact path='/login' component={LoginForm} /> }
-            { props.loggedIn && <Route exact path='/me' component={SelfBlock} /> }
-            { adminRoutes(props) }
+            <ControlledRoute exact path='/me' component={SelfBlock} allow={props.loggedIn} />
+            <ControlledRoute exact path='/login' component={LoginForm} allow={!props.loggedIn} />
+            <ControlledRoute exact path='/admin' component={AdminContainer} allow={(props.admin && props.loggedIn)} />
+            <ControlledRoute exact path='/admin/:id' component={ModifyBlock} allow={(props.admin && props.loggedIn)} />
+            <ControlledRoute exact path='/admin/terminate/:id' component={TerminateBlock} allow={(props.admin && props.loggedIn)} />
+            <ControlledRoute exact path='/new_hire' component={NewHire} allow={(props.admin && props.loggedIn)} />
             <Route component={NoMatch} />
           </Switch>
         </main>
