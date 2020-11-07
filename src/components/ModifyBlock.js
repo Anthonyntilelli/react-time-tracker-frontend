@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect }from 'react';
 import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
@@ -7,96 +7,88 @@ import Row from 'react-bootstrap/Row';
 
 import { fetchEmp, fetchAdminUpdate } from '../redux/AdminSlice';
 
-class ModifyBlock extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { reason: '', pto_rate: null, pto_max:  null, pto_current: null };
-  }
+const ModifyBlock = (props) => {
+  const [reason, setReason] = useState('');
+  const [pto_rate, setPTORate] = useState('');
+  const [pto_max, setPTOMax] = useState('');
+  const [pto_current, setPtoCurrent] = useState('');
 
-  handleSubmit = (event) => {
+  //For useEffect
+  const loggedIn = props.loggedIn;
+  const token = props.token;
+  const fetchEmp = props.fetchEmp;
+  const id = props.match.params.id;
+
+  useEffect(()=>
+    {
+      if (loggedIn) {
+        const urlAndRequest = { url: `http://localhost:3001/api/employee/${id}`, token: token, };
+        fetchEmp(urlAndRequest);
+      }
+    }, [loggedIn, token, fetchEmp, id]
+  );
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const urlAndRequest = { url: `http://localhost:3001/api/employee/${this.props.match.params.id}`,
-                            reason: this.state.reason,
-                            pto_rate: this.state.pto_rate,
-                            pto_max: this.state.pto_max,
-                            pto_current: this.state.pto_current,
-                            token: this.props.token
-                          };
-    this.props.fetchAdminUpdate(urlAndRequest);
+    const urlAndRequest = {
+      url: `http://localhost:3001/api/employee/${props.match.params.id}`, reason: reason,
+      pto_rate: pto_rate, pto_max: pto_max, pto_current: pto_current, token: props.token
+    };
+    props.fetchAdminUpdate(urlAndRequest);
   }
 
-  render() {
-    return (
-      <>
-        <Row>
-          <Col as='h2'>Modify {this.props.name}</Col>
-        </Row>
+  return (
+    <>
+      <Row>
+        <Col as='h2'>Modify {props.name}</Col>
+      </Row>
 
-        <Row>
-          <Col as='p'>Current PTO Rate: {this.props.pto_rate}</Col>
-        </Row>
+      <Row>
+        <Col as='p'>Current PTO Rate: {props.pto_rate}</Col>
+      </Row>
 
-        <Row>
-          <Col as='p'>Current PTO Max: {this.props.pto_max}</Col>
-        </Row>
+      <Row>
+        <Col as='p'>Current PTO Max: {props.pto_max}</Col>
+      </Row>
 
-        <Row>
-          <Col as='p'>Current PTO Current: {this.props.pto_current}</Col>
-        </Row>
+      <Row>
+        <Col as='p'>Current PTO Current: {props.pto_current}</Col>
+      </Row>
 
-        <br />
+      <br />
 
-        <Row>
-          <Col></Col>
-          <Col>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group controlId="formReason">
-                <Form.Label>Reason</Form.Label>
-                <Form.Control type="text" value={this.state.reason}
-                              onChange={event => this.setState({reason: event.target.value})}
-                              minLength='8' maxLength='120' required
-                />
-                <Form.Text className="text-muted">Reason is required for Administrative action.</Form.Text>
-              </Form.Group>
+      <Row>
+        <Col></Col>
+        <Col>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formReason">
+              <Form.Label>Reason</Form.Label>
+              <Form.Control type="text" value={reason} onChange={event => setReason(event.target.value)} minLength='8' maxLength='120' required />
+              <Form.Text className="text-muted">Reason is required for Administrative action.</Form.Text>
+            </Form.Group>
 
-              <Form.Group controlId="formPtoRate">
-                <Form.Label>PTO Rate</Form.Label>
-                <Form.Control type="number" value={this.state.pto_rate}
-                              onChange={event => this.setState({pto_rate: event.target.value})}
-                              min={0} required
-                />
-              </Form.Group>
+            <Form.Group controlId="formPtoRate">
+              <Form.Label>PTO Rate</Form.Label>
+              <Form.Control type="number" value={pto_rate} onChange={event => setPTORate(event.target.value)} min={0} required />
+            </Form.Group>
 
-              <Form.Group controlId="formPtoMax">
-                <Form.Label>PTO Max</Form.Label>
-                <Form.Control type="number" value={this.state.pto_max}
-                              onChange={event => this.setState({pto_max: event.target.value})}
-                              min={0} required
-                />
-              </Form.Group>
+            <Form.Group controlId="formPtoMax">
+              <Form.Label>PTO Max</Form.Label>
+              <Form.Control type="number" value={pto_max} onChange={ event => setPTOMax(event.target.value) } min={0} required />
+            </Form.Group>
 
-              <Form.Group controlId="formPtoCurrent">
-                <Form.Label>PTO Current</Form.Label>
-                <Form.Control type="number" value={this.state.pto_current} onChange={event => this.setState({pto_current: event.target.value})}
-                              min={0}
-                />
-              </Form.Group>
+            <Form.Group controlId="formPtoCurrent">
+              <Form.Label>PTO Current</Form.Label>
+              <Form.Control type="number" value={pto_current} onChange={ event => setPtoCurrent(event.target.value) } min={0} />
+            </Form.Group>
 
-              <Button variant="primary" type="submit">Submit</Button>
-            </Form>
-          </Col>
-          <Col></Col>
-        </Row>
-      </>
-    )
-  }
-
-  componentDidMount() {
-    if (this.props.loggedIn) {
-      const urlAndRequest = { url: `http://localhost:3001/api/employee/${this.props.match.params.id}`, token: this.props.token, };
-      this.props.fetchEmp(urlAndRequest);
-    }
-  }
+            <Button variant="primary" type="submit">Submit</Button>
+          </Form>
+        </Col>
+        <Col></Col>
+      </Row>
+    </>
+  )
 }
 
 const mapDispatchToProps = dispatch => (
