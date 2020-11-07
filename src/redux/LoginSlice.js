@@ -1,3 +1,4 @@
+// Slice Controls Auth info.
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import jwt_decode from "jwt-decode";
 
@@ -14,9 +15,8 @@ const INITIAL_STATE = {
   name: 'UNKNOWN',
   jwt: '',
   pending: false,
-  error: false,
-  errorMessage: '',
-  loginMessage: '',
+  errorMessage: null,
+  loginMessage: null,
 }
 
 // Redux Thunk
@@ -26,7 +26,8 @@ export const fetchLogin = createAsyncThunk(
     const configObj = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name: endpoint.name, password: endpoint.password})}
+      body: JSON.stringify({name: endpoint.name, password: endpoint.password})
+    }
     const responce = await fetch(endpoint.url, configObj);
     if (!responce.ok) throw Error(responce.statusText);
     const json = await responce.json();
@@ -46,21 +47,17 @@ export const UserSlice = createSlice({
     state.jwt = INITIAL_STATE.jwt;
     state.loginMessage = "Logout Successfull";
    },
-   clearUserError: state => {
-    state.error = INITIAL_STATE.error;
-    state.errorMessage = INITIAL_STATE.errorMessage;
-   },
+   clearUserError: state => { state.errorMessage = INITIAL_STATE.errorMessage; },
    clearLoginMessage: state => { state.loginMessage = INITIAL_STATE.loginMessage;}
   },
   extraReducers:{
    [fetchLogin.pending]: state => {
      state.pending = true;
-     state.error = INITIAL_STATE.error;
      state.errorMessage = INITIAL_STATE.errorMessage;
+     state.loginMessage = INITIAL_STATE.loginMessage;
    },
    [fetchLogin.rejected]: (state, action) => {
      state.pending = INITIAL_STATE.pending;
-     state.error = true;
      state.errorMessage = `${action.error.name}: ${action.error.message}`;
    },
    [fetchLogin.fulfilled]:(state, action) => {
@@ -74,7 +71,6 @@ export const UserSlice = createSlice({
       state.jwt = action.payload.token;
       state.loginMessage = action.payload.message;
     } catch(error) {
-      state.error = true;
       state.errorMessage = `Issue when attempting to decode JWT token`;
       console.error(error);
     }
@@ -84,20 +80,3 @@ export const UserSlice = createSlice({
 
 export const {logout, clearUserError, clearLoginMessage } = UserSlice.actions;
 export default UserSlice.reducer;
-
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched
-// export const incrementAsync = amount => dispatch => {
-//   setTimeout(() => {
-//     dispatch(incrementByAmount(amount));
-//   }, 1000);
-// };
-
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-// export const selectCount = state => state.counter.value;
-
-

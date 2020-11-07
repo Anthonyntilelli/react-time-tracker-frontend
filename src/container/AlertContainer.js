@@ -2,28 +2,38 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Row from 'react-bootstrap/Row';
 import TopAlert from '../components/TopAlert';
-import { clearUserError, clearLoginMessage } from '../redux/userSlice';
+import { clearUserError, clearLoginMessage } from '../redux/LoginSlice';
+import { clearSelfError } from '../redux/SelfSlice';
+import { clearAdminError, clearAdminSuccess } from '../redux/AdminSlice';
 
 const AlertContainer = (props) => {
   return (
     <>
-    { props.userError && <Row as='aside'><TopAlert variant={'danger'} message={props.userErrorMessage} clear={() => props.clearUserError()} /></Row> }
+    { props.userErrorMessage && <Row as='aside'><TopAlert variant={'danger'} message={props.userErrorMessage} clear={() => props.clearUserError()} /></Row> }
     { props.loginMessage && <Row as='aside'><TopAlert variant={'success'} message={props.loginMessage} clear={() => props.clearLoginMessage()} /></Row> }
+    { props.selfErrorMessage && <Row as='aside'><TopAlert variant={'danger'} message={props.selfErrorMessage} clear={() => props.clearSelfError()} /></Row> }
+    { props.adminErrorMessage && <Row as='aside'><TopAlert variant={'danger'} message={props.adminErrorMessage} clear={() => props.clearAdminError()} /></Row> }
+    { props.adminSuccessMessage && <Row as='aside'><TopAlert variant={'success'} message={props.adminSuccessMessage} clear={() => props.clearAdminSuccess()} /></Row> }
     </>
   )
 }
 
 const mapStateToProps = state => (
   {
-    userError: state.user.error,
     userErrorMessage: state.user.errorMessage,
-    loginMessage: state.user.loginMessage
+    selfErrorMessage: state.self.errorMessage,
+    loginMessage: state.user.loginMessage,
+    adminErrorMessage: state.admin.errorMessage,
+    adminSuccessMessage: state.admin.successMessage,
   }
 );
 const mapDispatchToProps = dispatch => (
   {
     clearUserError: () => dispatch(clearUserError()),
-    clearLoginMessage:  () => dispatch(clearLoginMessage())
+    clearLoginMessage: () => dispatch(clearLoginMessage()),
+    clearSelfError: () => dispatch(clearSelfError()),
+    clearAdminError: () => dispatch(clearAdminError()),
+    clearAdminSuccess: () => dispatch(clearAdminSuccess())
   }
 )
 

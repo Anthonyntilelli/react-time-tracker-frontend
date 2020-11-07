@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 const NoMatch = () => {
   return (
     <Row>
-      <Col><h2>404 - Unknown Location</h2></Col>
+      <Col as={'h2'}>404 - Unknown Location</Col>
     </Row>
   );
 };
