@@ -16,18 +16,21 @@
   - NoMatch
   - HomePage
   - employeeBriefEntry
-- [ ] There should be 3 routes
+  - Aboutpage
+  - ClockTableRow
+- [x] There should be 3 routes
   - '/'
   - '/login'
   - '/new_hire'
   - '/history'
   - '/admin'
+  - '/about'
 - [x] The Application must make use of `react-router` and proper RESTful routing (should you choose to use react-router v3 please refer to the appropriate [docs](https://github.com/ReactTraining/react-router/tree/v3/docs); docs for v4 can be found [here](https://reacttraining.com/react-router/web/guides/quick-start))
 - [x] Use Redux middleware to respond to and modify state change
   - vai redux toolkit
 - [x] Make use of async actions and `redux-thunk` middleware to send data to and receive data from a server
   - via redux toolkit
-- [ ] Your Rails API should handle the data persistence with a database. You should be using `fetch()` within your actions to GET and POST data from your API - do not use jQuery methods.
+- [x] Your Rails API should handle the data persistence with a database. You should be using `fetch()` within your actions to GET and POST data from your API - do not use jQuery methods.
   - SQl Lite databse
   - feth with multipple HTTP verbs are used.
 - [x] Your client-side application should handle the display of data with minimal data manipulation

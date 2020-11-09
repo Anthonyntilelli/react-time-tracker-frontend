@@ -18,6 +18,7 @@ const NavBar = (props) => {
         { props.loggedIn && <span className='nav-item'><NavLink className='nav-link' to='/history'>History</NavLink></span> }
         { props.loggedIn && props.admin && <span className='nav-item'><NavLink className='nav-link' to= '/admin'>Admin</NavLink></span> }
         { props.loggedIn && props.admin && <span className='nav-item'><NavLink className='nav-link' to= '/new_hire'>New Hire</NavLink></span> }
+        <span className='nav-item'><NavLink className='nav-link' to='/about'>About Us</NavLink></span>
         { props.loggedIn && <Button variant="secondary" onClick={()=> props.logout()}>Logout</Button> }
       </Col>
     </Row>

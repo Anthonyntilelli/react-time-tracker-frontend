@@ -17,6 +17,7 @@ import ModifyBlock from './components/ModifyBlock';
 import TerminateBlock from './components/TerminateBlock'
 import NewHire from './components/NewHire';
 import HistoryContainer from './HistoryContainer/HistoryContainer';
+import AboutPage from './components/Aboutpage';
 
 const App = (props) => {
   // Controll access to routes
@@ -36,6 +37,7 @@ const App = (props) => {
           <hr className='my-4'/>
           <Switch>
             <Route exact path='/' component={HomePage} />
+            <Route exact path='/about' component={AboutPage} />
             <ControlledRoute exact path='/me' component={SelfBlock} allow={props.loggedIn} />
             <ControlledRoute exact path='/login' component={LoginForm} allow={!props.loggedIn} />
             <ControlledRoute exact path='/admin' component={AdminContainer} allow={(props.admin && props.loggedIn)} />
