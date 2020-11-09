@@ -8,6 +8,7 @@
 - [x] There should be 2 container components
   - AlertContainer
   - AdminContainer
+  - HistoryContainer
 - [x] There should be 5 stateless components
   - TopAlert
   - Footer

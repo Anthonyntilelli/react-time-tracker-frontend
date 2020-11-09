@@ -16,6 +16,7 @@ import AdminContainer from './container/AdminContainer'
 import ModifyBlock from './components/ModifyBlock';
 import TerminateBlock from './components/TerminateBlock'
 import NewHire from './components/NewHire';
+import HistoryContainer from './HistoryContainer/HistoryContainer';
 
 const App = (props) => {
   // Controll access to routes
@@ -41,6 +42,7 @@ const App = (props) => {
             <ControlledRoute exact path='/admin/:id' component={ModifyBlock} allow={(props.admin && props.loggedIn)} />
             <ControlledRoute exact path='/admin/terminate/:id' component={TerminateBlock} allow={(props.admin && props.loggedIn)} />
             <ControlledRoute exact path='/new_hire' component={NewHire} allow={(props.admin && props.loggedIn)} />
+            <ControlledRoute exact path='/history' component={HistoryContainer} allow={props.loggedIn} />
             <Route component={NoMatch} />
           </Switch>
         </main>
