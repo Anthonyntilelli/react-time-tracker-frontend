@@ -25,7 +25,7 @@ const LoginForm = (props) => {
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId='loginname'>
             <Form.Label>Name</Form.Label>
-            <Form.Control type='text' placeholder='John Doe' value={name} onChange={event => setname(event.target.value)} autoFocus required/>
+            <Form.Control type='text' placeholder='First Last' value={name} onChange={event => setname(event.target.value)} autoFocus required/>
           </Form.Group>
           <Form.Group controlId='LoginPassword'>
             <Form.Label>Password</Form.Label>
