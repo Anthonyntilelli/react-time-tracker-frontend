@@ -1,13 +1,14 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import userReducer from './LoginSlice'
 import adminReducer from './AdminSlice'
-import AlarmSlice from './AlarmSlice';
+import alertReducer from './AlertSlice'
+
 
 export default configureStore({
   reducer: {
     user: userReducer,
-    alarm: AlarmSlice,
-    admin: adminReducer
+    admin: adminReducer,
+    alert: alertReducer
   },
   middleware: [...getDefaultMiddleware()]
 });

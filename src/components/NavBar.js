@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { logout } from '../redux/LoginSlice';
 import { resetAdmin } from '../redux/AdminSlice';
-import { resetAlarm } from '../redux/AlarmSlice';
+import { resetAlert } from '../redux/AlertSlice';
 
 const NavBar = (props) => {
   return (
@@ -29,7 +29,7 @@ const mapDispatchToProps = dispatch => (
   {
     logout: () => {
       dispatch(logout());
-      dispatch(resetAlarm());
+      dispatch(resetAlert());
       dispatch(resetAdmin());
     }
   }

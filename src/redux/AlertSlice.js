@@ -12,18 +12,18 @@ const INITIAL_STATE = {
   successMessage: null
 }
 
-export const AlarmSlice = createSlice({
-  name: 'alarm',
+export const AlertSlice = createSlice({
+  name: 'alert',
   initialState: INITIAL_STATE,
   reducers: {
-   resetAlarm: state => {
+    resetAlert: state => {
     state.errorMessage = INITIAL_STATE.errorMessage;
     state.successMessage = INITIAL_STATE.successMessage;
    },
-   clearAlarmError: state => { state.errorMessage = INITIAL_STATE.errorMessage; },
-   clearALarmSuccess: state => { state.successMessage = INITIAL_STATE.successMessage; }
+   clearAlertError: state => { state.errorMessage = INITIAL_STATE.errorMessage; },
+   clearAlertSuccess: state => { state.successMessage = INITIAL_STATE.successMessage; }
   },
 });
 
-export const {resetAlarm, clearAlarmError, clearALarmSuccess } = AlarmSlice.actions;
-export default AlarmSlice.reducer;
+export const {resetAlert, clearAlertError, clearAlertSuccess } = AlertSlice.actions;
+export default AlertSlice.reducer;
