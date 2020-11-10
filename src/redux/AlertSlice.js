@@ -21,9 +21,12 @@ export const AlertSlice = createSlice({
     state.successMessage = INITIAL_STATE.successMessage;
    },
    clearAlertError: state => { state.errorMessage = INITIAL_STATE.errorMessage; },
-   clearAlertSuccess: state => { state.successMessage = INITIAL_STATE.successMessage; }
+   clearAlertSuccess: state => { state.successMessage = INITIAL_STATE.successMessage; },
+   setSuccess: (state, action) => { state.successMessage = action.payload; },
+   setError: (state, action) => { state.errorMessage = action.payload; }
   },
+
 });
 
-export const {resetAlert, clearAlertError, clearAlertSuccess } = AlertSlice.actions;
+export const {resetAlert, clearAlertError, clearAlertSuccess, setSuccess, setError } = AlertSlice.actions;
 export default AlertSlice.reducer;

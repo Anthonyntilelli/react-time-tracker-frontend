@@ -16,6 +16,3 @@ const EmployeeBriefEntry = (props) => {
   )
 }
 export default EmployeeBriefEntry
-
-
-

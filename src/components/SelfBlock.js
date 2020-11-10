@@ -3,6 +3,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import { connect } from 'react-redux';
+import { setError, setSuccess } from '../redux/AlertSlice';
 
 const SelfBlock = (props) => {
   const [clockEvent, SetClockEvent] = useState('');
@@ -19,16 +20,20 @@ const SelfBlock = (props) => {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
     };
-    const responce = await fetch(`http://localhost:3001/api/employee/${id}/next_clock`, configObj);
-
-    if (!responce.ok) { // Error
-      console.error(`Fetch Clock Error: ${responce.statusText}`);
-      // TODO: Display failure alert
-    } else {
-      const json = await responce.json();
-      console.log(json);
-      SetClockEvent(json.event);
-    }
+    try {
+      const responce = await fetch(`http://localhost:3001/api/employee/${id}/next_clock`, configObj);
+      if (!responce.ok) { // Error
+        console.error(`Fetch Clock Error: ${responce.statusText}`);
+        props.errorMessage(`Fetch Clock Error: ${responce.statusText}`);
+      } else {
+        const json = await responce.json();
+        console.log(json);
+        SetClockEvent(json.event);
+      }
+    } catch (error) {
+      console.error(`handleClockEvent Error: ${error}`);
+      props.errorMessage(`handleClockEvent Error: ${error}`)
+  }
   }
 
   const handleClockEvent = async (category_name, token, id) => {
@@ -37,17 +42,22 @@ const SelfBlock = (props) => {
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify({category: category_name})
     };
-    const responce = await fetch(`http://localhost:3001/api/employee/${id}/clock`, configObj);
-
-    if (!responce.ok) { // Error
-      console.error(`handleClockEvent Error: ${responce.statusText}`);
-    } else {
-      const json = await responce.json();
-      console.log(json);
-      // TODO: Display Event submit alert
+    try {
+      const responce = await fetch(`http://localhost:3001/api/employee/${id}/clock`, configObj);
+      if (!responce.ok) { // Error
+        console.error(`handleClockEvent Error: ${responce.statusText}`);
+        props.errorMessage(`handleClockEvent Error: ${responce.statusText}`)
+      } else {
+        const json = await responce.json();
+        console.log(json);
+        props.successMessage(json.message)
+      }
+      SetClockEvent('');
+      fetchClockEvent(token, id);
+    } catch (error) {
+      console.error(`handleClockEvent Error: ${error}`);
+      props.errorMessage(`handleClockEvent Error: ${error}`)
     }
-    SetClockEvent('');
-    fetchClockEvent(token,id);
   }
 
   const fetchPersonalInfo = async (token, url) => {
@@ -55,17 +65,22 @@ const SelfBlock = (props) => {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
     };
-    const responce = await fetch(url, configObj);
-    if (!responce.ok) { // Error
-      console.error(`Fetch Personal Error: ${responce.statusText}`);
-      // TODO: Display failure alert
-    } else {
-      const json = await responce.json();
-      console.log(json);
-      setName(json.name);
-      setPtoCurrent(json.pto_current);
-      setPtoRate(json.pto_rate);
-      setPtoMax(json.pto_max);
+    try {
+      const responce = await fetch(url, configObj);
+      if (!responce.ok) { // Error
+        console.error(`Fetch Personal Error: ${responce.statusText}`);
+        props.errorMessage(`Fetch Personal Error: ${responce.statusText}`)
+      } else {
+        const json = await responce.json();
+        console.log(json);
+        setName(json.name);
+        setPtoCurrent(json.pto_current);
+        setPtoRate(json.pto_rate);
+        setPtoMax(json.pto_max);
+      }
+    } catch (error) {
+      console.error(`handleClockEvent Error: ${error}`);
+      props.errorMessage(`handleClockEvent Error: ${error}`)
     }
   }
 
@@ -103,7 +118,10 @@ const SelfBlock = (props) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  errorMessage: (message) => dispatch(setError(message)),
+  successMessage: (message) => dispatch(setSuccess(message))
+});
 const mapStateToProps = state => (
   {
     loggedIn: state.user.loggedIn,
@@ -112,4 +130,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default connect(mapStateToProps, null)(SelfBlock);
+export default connect(mapStateToProps, mapDispatchToProps)(SelfBlock);
