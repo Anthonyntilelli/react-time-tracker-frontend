@@ -12,7 +12,7 @@ import Footer from './components/Footers';
 import NoMatch from './components/NoMatch';
 import LoginForm from './components/Login';
 import SelfBlock from './components/SelfBlock';
-import AdminContainer from './container/AdminContainer'
+import AdminContainer from './AdminContainer/AdminContainer';
 import ModifyBlock from './components/ModifyBlock';
 import TerminateBlock from './components/TerminateBlock'
 import NewHire from './components/NewHire';
