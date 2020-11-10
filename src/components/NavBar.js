@@ -5,8 +5,8 @@ import Button from 'react-bootstrap/Button';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { logout } from '../redux/LoginSlice';
-import { resetSelf } from '../redux/SelfSlice';
 import { resetAdmin } from '../redux/AdminSlice';
+import { resetAlarm } from '../redux/AlarmSlice';
 
 const NavBar = (props) => {
   return (
@@ -29,7 +29,7 @@ const mapDispatchToProps = dispatch => (
   {
     logout: () => {
       dispatch(logout());
-      dispatch(resetSelf());
+      dispatch(resetAlarm());
       dispatch(resetAdmin());
     }
   }
