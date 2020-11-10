@@ -55,7 +55,6 @@ const HistoryContainer = (props) => {
   )
 }
 
-const mapDispatchToProps = dispatch => ( { } );
 const mapStateToProps = state => ({
   loggedIn: state.user.loggedIn,
   admin: state.user.admin,

@@ -32,8 +32,8 @@ const SelfBlock = (props) => {
       }
     } catch (error) {
       console.error(`handleClockEvent Error: ${error}`);
-      props.errorMessage(`handleClockEvent Error: ${error}`)
-  }
+      props.errorMessage(`handleClockEvent Error: ${error}`);
+    }
   }
 
   const handleClockEvent = async (category_name, token, id) => {
@@ -89,8 +89,8 @@ const SelfBlock = (props) => {
     [loggedIn, token, id]
   );
   useEffect(
-    () => { fetchClockEvent(token, id) },
-    [token, id]
+    () => { if (loggedIn) { fetchClockEvent(token, id) } },
+    [loggedIn ,token, id]
   );
 
   return (
