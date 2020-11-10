@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ClockTableRow = (props) => {
-  const paidOut = props.paid_out ? 'yes' : 'no'
+  const paidOut = props.paidOut ? 'yes' : 'no'
   return (
       <tr>
         <td>{props.category}</td>

@@ -10,12 +10,11 @@
   - AdminContainer
   - HistoryContainer
 - [x] There should be 5 stateless components
-  - TopAlert
+  - AlertLine
   - Footer
   - HeaderAndLogo
   - NoMatch
   - HomePage
-  - employeeBriefEntry
   - Aboutpage
   - ClockTableRow
 - [x] There should be 3 routes
