@@ -16,7 +16,7 @@ npm Install
 npm start
 ```
 
-## Usage (with rails backend)
+## Usage (with [rails backend](https://github.com/Anthonyntilelli/React-time-tracker))
 
 The data for the employee tracker persists on a rails backend server, listening on localhost:3001
 
