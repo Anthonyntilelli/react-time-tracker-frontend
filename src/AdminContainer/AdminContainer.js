@@ -1,41 +1,53 @@
 import  React, { PureComponent} from 'react';
 import { connect } from 'react-redux';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import EmployeeBriefEntry from './employeeBriefEntry';
 import { fetchAdminList } from '../redux/AdminSlice';
 import { setError, setSuccess } from '../redux/AlertSlice';
 
 class AdminContainer extends PureComponent {
+  handleSort() {
+    alert('Handle Sort');
+  }
+
+
   render() {
     return (
-      <Row>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Active</th>
-              <th>Admin</th>
-              <th>Administer</th>
-              <th>Terminate</th>
-              <th>Pay</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              this.props.employee_list.map((emp) =>
-                (
-                  <EmployeeBriefEntry key={emp.id} name={emp.name} active={emp.active} admin={emp.admin}
-                    modify_url={`/admin/${emp.id}`} terminate_url={`/admin/terminate/${emp.id}`}
-                    token={this.props.token} id={emp.id} setError={this.props.setError}
-                    setSuccess={this.props.setSuccess}
-                  />
+      <>
+        <Row className="pb-2">
+          <Col><Button  onClick={this.handleSort} variant="primary" size="lg" block>Sort Inactive to top</Button></Col>
+        </Row>
+        <Row className="mt-4">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Active</th>
+                <th>Admin</th>
+                <th>Administer</th>
+                <th>Terminate</th>
+                <th>Pay</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                this.props.employee_list.map((emp) =>
+                  (
+                    <EmployeeBriefEntry key={emp.id} name={emp.name} active={emp.active} admin={emp.admin}
+                      modify_url={`/admin/${emp.id}`} terminate_url={`/admin/terminate/${emp.id}`}
+                      token={this.props.token} id={emp.id} setError={this.props.setError}
+                      setSuccess={this.props.setSuccess}
+                    />
+                  )
                 )
-              )
-            }
-          </tbody>
-        </Table>
-      </Row>
+              }
+            </tbody>
+          </Table>
+        </Row>
+      </>
     )
   }
   componentDidMount() {
